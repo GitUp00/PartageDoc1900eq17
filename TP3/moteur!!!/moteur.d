@@ -1,0 +1,1 @@
+moteur.o: moteur.cpp
