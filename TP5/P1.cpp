@@ -10,12 +10,12 @@
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
-
 #define F_CPU 8000000
 #include <util/delay.h>
 #include "memoire_24.h"
-volatile uint8_t minuterieExpiree = 0; //-----p2
-volatile uint8_t boutonPoussoir = 0;   //-------p2
+ 
+
+
 
 
 int main()

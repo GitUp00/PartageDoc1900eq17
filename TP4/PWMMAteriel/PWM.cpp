@@ -24,7 +24,7 @@ void ajustementPWM (uint8_t numerateur, uint8_t denominateur)
 	OCR1A = numerateur;
 	OCR1B = denominateur;
 	
-	TCCR1A =  (1 << COM1A1) | (1 << COM1B0) |(1 << WGM10);
+	TCCR1A =  (1 << COM1A1) |(1 << COM1A0) |(1 << COM1B1) | (1 << COM1B0) |(1 << WGM10);
 	TCCR1B = (0 << CS12) |(1 << CS11)| (0 << CS10);
 	TCCR1C = 0;
 }
@@ -36,7 +36,7 @@ int main()
     DDRB = 0xff; // PORT B est en mode sortie
     DDRC = 0xff; // PORT C est en mode sortie
     DDRD = 0xff; // PORT D est en mode sortie
-	
+	PIND = 0b00001000;
 	ajustementPWM(0,0);
 	_delay_ms(2000);
 	ajustementPWM(64,64);
