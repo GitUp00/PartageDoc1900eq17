@@ -13,10 +13,26 @@
 
 #define F_CPU 8000000
 #include <util/delay.h>
-#include "memoire_24.h"
 volatile uint8_t minuterieExpiree = 0; //-----p2
 volatile uint8_t boutonPoussoir = 0;   //-------p2
 
+
+void compter(uint8_t a)
+    {
+		for (int i = 0; i < a; i++)
+		{
+		compteur++;
+		_delay_ms(100);
+		}
+		
+		compteur
+	}
+	/*
+	void compter2 (uint8_t b)
+	{
+		for
+	}
+	*/
 
 int main()
 {
@@ -43,6 +59,24 @@ int main()
     */
     
     uint8_t compteur = 0;
+    while(compteur !=120)
+    {
+		compter(120);
+	}
+	PORTA = 0b01;
+	_delay_ms(500);
+	PORTA = 0b00;
+	_delay_ms(2000);
+	PORTA = 0b10;
+	
+	//
+	
+	//
+	
+	PORTA = 0b01;
+	_delay_ms(1000);
+	PORTA=0b00;
+	compteur = 0;
 }
 
 
