@@ -13,41 +13,34 @@
 
 #define F_CPU 8000000
 #include <util/delay.h>
-
+#include "memoire_24.h"
 volatile uint8_t minuterieExpiree = 0; //-----p2
 volatile uint8_t boutonPoussoir = 0;   //-------p2
 
 
-void ajustementPWM (uint8_t numerateur, uint8_t denominateur) 
-{
-	
-	OCR1A = numerateur;
-	OCR1B = denominateur;
-	
-	TCCR1A =  (1 << COM1A1) | (1 << COM1B0) |(1 << WGM10);
-	TCCR1B = (0 << CS12) |(1 << CS11)| (0 << CS10);
-	TCCR1C = 0;
-}
-
 int main()
 {
+	class Memoire24 :: 
+	{
+	ecriture(0x00, "*P*O*L*Y*T*E*C*H*N*I*Q*U*E**M*O*N*T*R*E*A*L*");
+	_delay_ms(3000);
+	lecture(0x00, ecriture);
 	
+	if (ecriture ==lecture)
+	{
+	PORTA = 0b01;	
+	}
+	if(ecriture !=lecture)
+	{
+	PORTA = 0b10;	
+	}
+	lecture
     DDRA = 0xff;
     DDRB = 0xff; // PORT B est en mode sortie
     DDRC = 0xff; // PORT C est en mode sortie
-    DDRD = 0xff; // PORT D est en mode sortie
-	
-	ajustementPWM(0,0);
-	_delay_ms(2000);
-	ajustementPWM(64,64);
-	_delay_ms(2000);
-	ajustementPWM(128,128);
-	_delay_ms(2000);
-	ajustementPWM(192,192);
-	_delay_ms(2000);
-	ajustementPWM(255, 255);
-	_delay_ms(2000);
-	ajustementPWM(0,0);
+    DDRD = 0x00; // PORT D est en mode entree
+}
+
 
     
     return 0;
