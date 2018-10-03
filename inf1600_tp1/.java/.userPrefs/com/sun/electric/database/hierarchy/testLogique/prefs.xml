@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<map MAP_XML_VERSION="1.0">
+  <entry key="CurrentCell" value="arch{sch}"/>
+  <entry key="LIB" value="testLogique"/>
+  <entry key="SavedSignalsForCellarch" value="&#9;Signals&#9;HORLOGE&#10;&#9;Signals&#9;A&#10;&#9;Signals&#9;B[1:0]&#10;&#9;Signals&#9;C&#10;&#9;Signals&#9;D&#10;&#9;Signals&#9;E&#10;&#9;Signals&#9;F&#10;&#9;Signals&#9;G&#10;&#9;Signals&#9;ECRIRE_R&#10;&#9;Signals&#9;ECRIRE_T&#10;&#9;Signals&#9;ECRIRE_IR&#10;&#9;Signals&#9;ECRIRE_EIP&#10;&#9;Signals&#9;ALU_OP[6:0]&#10;&#9;Signals&#9;IR[31:0]&#10;&#9;Signals&#9;Y[31:0]&#10;&#9;Signals&#9;ALU[31:0]&#10;&#9;Signals&#9;T[31:0]&#10;&#9;Signals&#9;EFFACER_TOUT&#10;&#9;Signals&#9;DEBUG_ECRIRE_&#10;&#9;Signals&#9;DEBUG_REG[2:0]&#10;&#9;Signals&#9;DEBUG_VAL[31:0]&#10;&#9;Signals&#9;REGISTRE_0.EAX[31:0]&#10;&#9;Signals&#9;REGISTRE_0.ECX[31:0]&#10;&#9;Signals&#9;REGISTRE_0.EDX[31:0]&#10;&#9;Signals&#9;REGISTRE_0.EBX[31:0]&#10;&#9;Signals&#9;REGISTRE_0.ESP[31:0]&#10;&#9;Signals&#9;REGISTRE_0.EBP[31:0]&#10;&#9;Signals&#9;REGISTRE_0.ESI[31:0]&#10;&#9;Signals&#9;REGISTRE_0.EDI[31:0]&#10;&#9;Signals&#9;EIP[31:0]&#10;&#9;Signals&#9;MEM_INSTRUCTION[31:0]&#10;"/>
+</map>

@@ -1,0 +1,90 @@
+Modification faites à Electric, depuis la version 8.05p,
+par Francois-R.Boyer@PolyMtl.ca
+
+
+com\sun\electric\tool\user\waveform\Panel.java  (pour l'affichage des signaux)
+	processSignals dans la partie "// a digital bus trace": "Long.toString(curYValue" mis en base 16
+		utilisation de "..." ou même rien, si la valeur du signal prend trop de place pour être affichée dans l'espace disponible
+		affiche en binaire avec les "Z" et "X" si tous les bits ne sont pas définis
+		les "strength" sont affichés avec différents niveaux dans la fenêtre
+		le text dans les bus grossit avec la taille du Panel
+	mouseDraggedSelect(MouseEvent evt): drag des curseurs avec snap sur les transitions
+					pan lorsqu'on drag à l'extérieur de la fenêtre
+	mouseDraggedPan(MouseEvent evt): le pan était tout croche, il modifiait dragStart à la fin de la routine
+	CONTROLPOINTSIZE: réduit pour ne pas qu'il cache le début de la valeur d'un bus lorsque les signaux sont petits
+	processControlPoints(Graphics g, Rectangle2D bounds): le point vert (pour la sélection) a été grossi (1 pixel de moins que CONTROLPOINTSIZE, au lieu de 2 de moins)
+	Panel(WaveformWindow waveWindow, boolean analog, Analysis.AnalysisType analysisType): la taille des séparateurs a été réduite à gauche, et aucun séparateur à droite
+	VERTLABELWIDTH: réduit de 60 à 40
+
+com\sun\electric\tool\user\CompileVHDL.java  (VHDL -> ALS)
+	doScanner(String [] strings): ajout du support partiel de "\" dans VHDL et l'utilisation non-standard de [] permise dans les identificateurs
+	genALSInterface(DBInterface interfacef, String name, List<String> netlist): modifié pour mettre le code des autres net.als à la fin plutôt que tout re
+	genALS(Library destLib, Library behaveLib): génère le ALS pour les sousmodels dans la unResolvedList, au lieu de le faire récursivement dans genALSInterface
+	addNetlist(Library lib, String name, List<String> netlist): modifié pour utiliser la nouvelle commande d'inclusion "#<"
+
+com\sun\electric\tool\user\GenerateVHDL.java  ( -> VHDL)
+	addString(String orig, Cell environment): n'enlève pas les [] des identificateurs
+	generateVHDL(HierarchyEnumerator.CellInfo info): "negatedTails" au lieu de "negatedHeads"; plantait si on avait des inverseurs sur les entrées d'une porte.
+
+com\sun\electric\tool\simulation\als\ALS.java
+	getAName():  "+=" au lieu de "="; ne construisait pas la chaine s1 correctement
+	makeThemThus(int state):  getHighlightedNetworkNames()  serait peut-être à ajuster... ??
+				modifié pour que 'V' change la valeur d'un bus, avec une fenêtre pour choisir la valeur.
+	removeSelectedStimuli(): modifié pour effacer les points de contôle sur les bus
+				enlève la sélection des points de contrôle une fois qu'ils sont effacés
+	removeStimuliFromSignal(): modifié pour effacer les points de contôle sur les bus
+	insertSetList(Link linkHead):  modifié pour ne pas avoir deux éléments pour le même signal au même moment
+	parseStructHeader(char flag):  permet maintenant d'avoir plusieurs fois la même définition, avec un "WARNING"
+	getAString(): gestion de "includes" avec le commentaire spécial "#< nom_de_la_cellule"
+	fragmentLine(String line): met le texte entre guillemets comme un seul token
+	class Func:  param, pour tenir le paramêtre de la fonctions
+	parseFunction(): prend maintenent "PARAM" suivi d'un texte entre guillemets, pour le passer à la fonction
+		Flat.java processFunction(ALS.Connect cellHead, ALS.Model modHead): doit ajouter la copie du "param"
+	getStimuliToSave(): où la sauvegarde de stimulis est générée (une liste de string), appel computeNodeName qui appel computePathname qui avait un bogue
+	computePathName(Node nodeHead): le chemin était à l'envers (le parent était mis à la fin de la chaine), utilise maintenant une pile pour le mettre à l'endroit
+	processStimuliList(List<String> stimuliList):
+
+com\sun\electric\tool\user\waveform\WaveformWindow.java
+	createWaveformWindow -> finishWindowFrameInformation -> buildWindowStructure -> loadExplorerTrees -> getSignalsForExplorer: c'est ici que la liste des signaux est créée, mais pas les bus; je n'ai rien modifié, voir Simulation.java
+	updateAssociatedLayoutWindow(): c'est la fonction qui met les couleurs sur les nets selon la valeur dans la simulation; pas modifiée
+	setMainXPositionCursor(double value): cette fonction fait un appel à updateAssociatedLayoutWindow(), qui est beaucoup trop lent pour un circuit de bonne taille
+	finished(): appel a clearCrossProbeLevels, pour enlever les traces sur les nets quand on ferme la simulation
+	zoomInContents() et zoomOutContents(): pour faire un zoom en gardant le curseur Main à la même place dans la fenêtre, plutôt que de zoomer par rapport au centre de la fenêtre
+	getSignalsForExplorer(Analysis an, TreePath parentPath, String analysis): modifié pour mettre les sous-signaux d'un bus dans un sous-arbre
+	getHighlightedNetworkNames(): enlevé les signaux sélectionnés dans l'arbre "SIGNALS" (était fatiguant quand on voulait changer la valeur d'un signal, mais c'est peut-être pas la meilleure façon de l'ajuster)
+	WaveformWindow(Stimuli sd, WindowFrame wf): augmenté le PreferredWidth de la colonne de droite
+
+com\sun\electric\tool\simulation\Simulation.java
+	showSimulationData(Stimuli sd, WaveformWindow ww): déplacé l'appel à makeBussedSignals pour qu'ils soient affichés correctement même si on a une liste de signaux à afficher dans la cellule
+	makeBussedSignals(Analysis an): modifié pour mettre "[...]" à la fin des noms des bus
+
+com\sun\electric\tool\simulation\als\Sim.java
+	createCheckList(ALS.Node nodeHead, ALS.Link linkHead): un node à OFF_STRENGTH est maintenant gardé à cette force, pour un affichage à Z
+
+com\sun\electric\database\topology\NodeInst.java
+	compareTo(NodeInst that): compare avec le STRING_NUMBER_ORDER au lieu de l'ordre lexicographique standard
+com\sun\electric\database\topology\ArcInst.java
+	compareTo(NodeInst that): compare avec le STRING_NUMBER_ORDER au lieu de l'ordre lexicographique standard
+
+	comme il y a plein de numéros dans les noms, ceci les place dans un ordre un peu plus intelligent (pratique pour la numérotation automatique lors des copy&paste)
+
+com\sun\electric\tool\routing\RouteElementArc.java
+	doAction()	C'est dans cette routine que la taille de la porte est changée avec un tailNi.resize
+			modifié pour ne pas faire de "notify" du changement de taille (à deux places)
+			(par contre on ne peut toujours pas réduire la taille de la porte si on efface des connexions)
+
+com\sun\electric\database\constraint\LayoutCell.java
+	transformByPort(PortInst pi)
+
+com\sun\electric\database\text\TextUtils.java
+	compare(String name1, String name2): mettre les ponctuations avant les chiffres (ajout de la méthode "ponctuation")
+
+com\sun\electric\tool\simulation\als\UserCom.java
+	ajout de "RAM"  (doit ajouter un "new" dans ALS.java init())
+
+com/sun/electric/tool/simulation/Signal.java
+	ajout de private List<Signal> parentBusses;
+	addToBussedSignalList(Signal ws): ajoute aux parentBusses
+	clearBussedSignalList(): enlève des parentBusses
+	finished(): efface parentBusses
+	ajout getParentBusses(): retourne parentBusses
