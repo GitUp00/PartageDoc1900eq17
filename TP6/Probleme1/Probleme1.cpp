@@ -21,7 +21,7 @@ uint8_t vert = 0b01; //Led prend la couleur verte
 
 void partirMinuterie(uint16_t duree)
 {
-    //minuterieExpiree = 0;
+    minuterieExpiree = 0;
 
     TCNT1 = 0; //0x1FF; // valeur de départ
 
@@ -37,6 +37,15 @@ void partirMinuterie(uint16_t duree)
     TIMSK1 = 1 << OCIE1A;
 }
 
+uint8_t compter(uint8_t a)
+    {
+		for (int i = 0; i < a; i++)
+		{
+		compteur++;
+		_delay_ms(100);
+		}
+	}
+	
 void clignotter(uint8_t nbr ){
 for(uint8_t i = 0; i < nbr; i++){
 	
@@ -56,7 +65,7 @@ ISR(TIMER1_COMPA_vect)
 ISR(INT0_vect)
 {
 	if(boutonPoussoir == 0){
-	partirMinuterie(12000);
+	//partirMinuterie(86000);
 	boutonPoussoir =1;
 	//PORTA = rouge;
 	}
@@ -67,7 +76,8 @@ ISR(INT0_vect)
 }
 int main()
 {
-	//cli();
+	
+	cli();
     DDRA = 0xff; // PORT A est en mode sortie
     DDRB = 0xff; // PORT B est en mode sortie
     DDRC = 0xff; // PORT C est en mode sortie
@@ -86,12 +96,17 @@ while (boutonPoussoir == 0){
 	
 
 
-while(PIND & 0b00000100 && boutonPoussoir == 1){
-	compteur++;
+while(PIND & 0b00000100 && boutonPoussoir == 1 && compteur !=120){
+	//cli();
+	//partirMinuterie(86000);
+	compter(120);
+	//compteur++;
 	PORTA = rouge;
 	_delay_ms(100);
 	PORTA = 0;
+	
 }
+sei();
 PORTA = vert;
 _delay_ms(500);
 PORTA = 0;
@@ -100,7 +115,7 @@ clignotter(compteur/2);
 PORTA = vert;
 _delay_ms(1000);
 PORTA = 0;
-
+compteur = 0;
 }
 
 
