@@ -19,13 +19,13 @@ volatile uint8_t compteur = 0;
 uint8_t rouge = 0b10; //Led prend la couleur rouge	
 uint8_t vert = 0b01; //Led prend la couleur verte
 
-void partirMinuterie(uint16_t duree)
+void partirMinuterie()
 {
     //minuterieExpiree = 0;
 
     TCNT1 = 0; //0x1FF; // valeur de départ
 
-    OCR1A = duree; 
+    OCR1A = 390; 
 	//(-1+sqrt(duree*4+1))/2;
 
     TCCR1A = 0; //(1 << COM1A1) | (1 << COM1A0);
@@ -56,7 +56,7 @@ ISR(TIMER1_COMPA_vect)
 ISR(INT0_vect)
 {
 	if(boutonPoussoir == 0){
-	partirMinuterie(12000);
+	partirMinuterie();
 	boutonPoussoir =1;
 	//PORTA = rouge;
 	}
