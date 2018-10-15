@@ -24,31 +24,19 @@ uint8_t vert = 0b01; //Led prend la couleur verte
 //% serieViaUSB -l
 
 
-void USART_Init( unsigned int baud )
+
+
+void ambree()
 {
-/* Set baud rate */
-UBRR0H = (unsigned char)(baud>>8);
-UBRR0L = (unsigned char)baud;
-/* Enable receiver and transmitter */
-UCSR0B = (1<<RXEN1)|(1<<TXEN0);
-/* Set frame format: 8data, 2stop bit */
-UCSR0C = (1<<USBS0)|(3<<UCSZ00);
-}
-
-
-void USART_Transmit( unsigned int data )
-{
-/* Wait for empty transmit buffer */
-while ( !( UCSR0A & (1<<UDRE1)) )
-;
-/* Put data into buffer, sends the data */
-UDR0 = data;
-}
-
+	PORTB =rouge;
+    _delay_ms(5);
+    PORTB =vert;
+    _delay_ms(10);
+	}
 
 int main()
 {
-//    USART_Init(2400);
+
 
     DDRA = 0x00; // PORT A est en mode entree
     DDRB = 0xff; // PORT B est en mode sortie
@@ -58,28 +46,29 @@ int main()
     can photo;
     
     uint16_t result;
-    for(;;){
-    result = photo.lecture(0); //Lecture obtenu sur 10 bits
-    result >> 2;//On elimine les 2 bits les moins significatifs avec un decalage
-    
+   for(;;){
    
-    result = (uint8_t)result; //On converti le resultat de 16 bits en 8 bits
+    result = (uint8_t)photo.lecture(0)>>2; //Lecture obtenu sur 10 bits
+    //result >> 2;//On elimine les 2 bits les moins significatifs avec un decalage
+    
+   //uint8_t result2;
+   // result = (uint8_t)result; //On converti le resultat de 16 bits en 8 bits
    
     _delay_ms(10);
-    if (result < 64)
+    if (result < 40)
         PORTB = vert;
-    else if (result > 200)
-        PORTB = rouge;
-    else //couleur ambre
-            PORTB =rouge;
-            _delay_ms(5);
-            PORTB =vert;
-            _delay_ms(10);
-           
-
+    
+    else if(result >= 100 && result < 180)
+    {//couleur ambre
+         
+           ambree();
+         
+         }
+     else if (result >= 190)
+		PORTB = rouge;
     }
 
-
+	return 0;
 
 }
 

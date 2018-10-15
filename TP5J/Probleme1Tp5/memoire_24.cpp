@@ -1,11 +1,11 @@
-******************************************************************************/
+//******************************************************************************/
 /*                                                                            */
 /* Ce code a ete modifie par Matthew Khouzam et Jerome Collin                 */
 /* Pour le cours de INF1995                                                   */
 /*                                                                            */
-/******************************************************************************/
+//******************************************************************************/
 
-/******************************************************************************/
+//******************************************************************************/
 /*                                                                            */
 /*                               memoire_24.cpp                               */
 /*                                                                            */
@@ -23,7 +23,7 @@
 /*  Pour les microcontroleurs Atmel, l'interface I2C est appelee TWI.         */
 /*                                                                            */
 /*                                                                            */
-/******************************************************************************/
+//******************************************************************************/
 
 #ifndef F_CPU
 /* fournir un avertissement mais non une erreur */
@@ -35,7 +35,7 @@
 
 uint8_t Memoire24CXXX::m_adresse_peripherique = 0xA0;
 
-/******************************************************************************/
+//******************************************************************************/
 /* void Memoire24CXXX::Memoire24CXXX()                                        */
 /*                                                                            */
 /*      Constructeur: ajuste la taille de la page et procede a                */
@@ -43,7 +43,7 @@ uint8_t Memoire24CXXX::m_adresse_peripherique = 0xA0;
 /*                                                                            */
 /* Parametre d'entree  : aucun                                                */
 /* Parametre de sortie : aucun                                                */
-/******************************************************************************/
+//******************************************************************************/
 Memoire24CXXX::Memoire24CXXX()
   : PAGE_SIZE(128)
 {
@@ -51,28 +51,28 @@ Memoire24CXXX::Memoire24CXXX()
 }
 
 
-/******************************************************************************/
+//******************************************************************************/
 /* void Memoire24CXXX::~Memoire24CXXX()                                       */
 /*                                                                            */
 /*      Destructeur: ne fait rien                                             */
 /*                                                                            */
 /* Parametre d'entree  : aucun                                                */
 /* Parametre de sortie : aucun                                                */
-/******************************************************************************/
+//******************************************************************************/
 Memoire24CXXX::~Memoire24CXXX()
 {
    // rien a faire... 
 }
 
 
-/******************************************************************************/
+//******************************************************************************/
 /* void Memoire24CXXX::init(void)                                             */
 /*                                                                            */
 /*      Initialisation du port serie et de l'horloge de l'interface I2C       */
 /*                                                                            */
 /* Parametre d'entree  : aucun                                                */
 /* Parametre de sortie : aucun                                                */
-/******************************************************************************/
+//******************************************************************************/
 void Memoire24CXXX::init()
 {
    choisir_banc(0);
@@ -83,14 +83,14 @@ void Memoire24CXXX::init()
 
 }
 
-/******************************************************************************/
+//******************************************************************************/
 /* uint8_t Memoire24CXXX::choisir_banc(const uint8_t banc)                    */
 /*                                                                            */
 /*      Choisir un banc de memoire                                            */
 /*                                                                            */
 /* Parametre d'entree  : uint8_t banc - le banc de memoire a choisir          */
 /* Parametre de sortie : uint8_t      - rv si c'est un succes, 255 si echec   */
-/******************************************************************************/
+//******************************************************************************/
 uint8_t Memoire24CXXX::choisir_banc(const uint8_t banc)
 {
    uint8_t temp = banc & 0x03;
@@ -104,7 +104,7 @@ uint8_t Memoire24CXXX::choisir_banc(const uint8_t banc)
 }
 
 
-/******************************************************************************/
+//******************************************************************************/
 /*                Lecture sequentielle de l'eeprom I2C                        */
 /*                                                                            */
 /* Le microcontroleur est en mode maitre. Il realise un acquittement (ACK) de */
@@ -144,7 +144,7 @@ uint8_t Memoire24CXXX::choisir_banc(const uint8_t banc)
 /*                                           (variante de la 2eme procedure)  */
 /* Parametres de sortie : uint8_t *donnee  - donnees lues                     */
 /*                                                                            */
-/******************************************************************************/
+//******************************************************************************/
 uint8_t Memoire24CXXX::lecture(const uint16_t adresse, uint8_t *donnee)
 {
   uint8_t rv = 0;
@@ -288,7 +288,7 @@ uint8_t Memoire24CXXX::lecture(const uint16_t adresse, uint8_t *donnee,
 }
 
 
-/******************************************************************************/
+//******************************************************************************/
 /*                                                                            */
 /*      ecriture d'un bloc de donnees en mode page dans l'eeprom I2C          */
 /*                                                                            */
@@ -331,7 +331,7 @@ uint8_t Memoire24CXXX::lecture(const uint16_t adresse, uint8_t *donnee,
 /*                        int longueur     - longueur du bloc de donnees      */
 /* Parametre de sortie  : uint8_t rv       - nombre de donnees ecrites        */
 /*                                                                            */
-/******************************************************************************/
+//******************************************************************************/
 uint8_t Memoire24CXXX::ecriture(const uint16_t adresse, const uint8_t donnee)
 {
   //______________ Attente de la fin d'un cycle d'ecriture ______________
