@@ -6,7 +6,8 @@
 //  */
 
 // /*
-//  * Pin de la LED connecte au PORTA(pin 1 et pin 2)
+// Pin de la LED connecte au PORTB(pin 1 et pin 2)
+// lecture analogue se fait sur le PORTA position 0  
 #define F_CPU 8000000
 #define BAUD 2400
 #include <util/setbaud.h>
@@ -58,8 +59,6 @@ int main()
     DDRB = 0xff; // PORT B est en mode sortie
     DDRC = 0xff; // PORT C est en mode sortie
     DDRD = 0x00; // PORT D est en mode entree
-    PORTB = vert;
-    _delay_ms(2500);
     can photo ;
 
     uint8_t result;
@@ -73,11 +72,11 @@ int main()
 
 	
         _delay_ms(10);
-        if (result < 185)
+        if (result < 180)
         {
             PORTB = vert;
         }
-        else if(result >= 185 && result < 240){
+        else if(result >= 180 && result < 240){
             ambree();   
         }
         else if (result >= 240 && result <=255){
